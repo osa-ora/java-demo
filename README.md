@@ -17,7 +17,8 @@ Select Build options as "Builds" and click on create.
 
 <img width="678" alt="Screenshot 2024-07-09 at 12 19 44 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/7cade55d-b0ad-4e68-9540-d793ed8331d0">
 
-Note: If you are using private NPM maven repository, then you can just add an environment variable; MAVEN_MIRROR_URL to point to this private artifact repository.
+Note: If you are using private Maven repository, then you can just add an environment variable; MAVEN_MIRROR_URL to point to this private artifact repository.
+It can be added as an entry to the .s2i/environment file or as environment variable to the build object.
 
 The application will built and deployed into OpenShift:
 
