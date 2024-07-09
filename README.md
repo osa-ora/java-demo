@@ -1,4 +1,4 @@
-## JavaApp Deployment To OpenShift Demo (TBC)
+## JavaApp Deployment To OpenShift Demo 
 
 We have plenty of options to deploy Java Application to OpenShift, in this demo we will see some of these deployment options, this repo is fork from the following Git repo: https://github.com/osa-ora/simple_java_maven
 
@@ -78,7 +78,7 @@ oc new-project dev
 
 //create shipwright build for our application in the 'dev' project
 //our project code is in the root of the Git repo, otherwise we could have used '--source-context-dir="docker-build"' flag to specify the context folder of our application.
-shp build create java-build --strategy-name="source-to-image" --source-url="https://github.com/osa-ora/simple_java_maven" --output-image="image-registry.openshift-image-registry.svc:5000/dev/java-app" --builder-image="image-registry.openshift-image-registry.svc:5000/openshift/java:11"
+shp build create java-build --strategy-name="source-to-image" --source-url="https://github.com/osa-ora/java-demo" --output-image="image-registry.openshift-image-registry.svc:5000/dev/java-app" --builder-image="image-registry.openshift-image-registry.svc:5000/openshift/java:11"
 
 //start the build and follow the output
 shp build run java-build --follow
