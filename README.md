@@ -6,25 +6,38 @@ We have plenty of options to deploy Java Application to OpenShift, in this demo 
 
 Go to OpenShift Developer Console, Select Java from the catalog and click on Create: 
 
+<img width="335" alt="Screenshot 2024-07-09 at 12 17 58 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/0298e324-e05e-48e2-9077-c8201ae4f486">
 
-Fill in the Git Repo location "https://github.com/osa-ora/java-demo" and application name:
+Select Java version, fill in the Git Repo location "https://github.com/osa-ora/java-demo" and application name:
+
+<img width="686" alt="Screenshot 2024-07-09 at 12 18 57 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/c0cd2c0b-2c1a-426e-b668-5d6c061c2f4c">
 
 
 Select Build options as "Builds" and click on create.
 
+<img width="678" alt="Screenshot 2024-07-09 at 12 19 44 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/7cade55d-b0ad-4e68-9540-d793ed8331d0">
 
-Note: If you are using private NPM artifact repository, then you can just add an environment variable; MAVEN_MIRROR_URL to point to this private artifact repository.
+Note: If you are using private NPM maven repository, then you can just add an environment variable; MAVEN_MIRROR_URL to point to this private artifact repository.
 
+The application will built and deployed into OpenShift:
 
-The application will built and deployed into OpenShift and you can just test it by using the route:
+<img width="729" alt="Screenshot 2024-07-09 at 12 22 32 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/af7dddf8-ed90-4b18-9b51-949083dac369">
+
+And you can just test it by using the route:
+
+<img width="391" alt="Screenshot 2024-07-09 at 12 23 05 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/dbc66dbb-9403-4128-b07b-6d04c0fb708f">
+
+You can use that balance URL to get some dummy data from that service.
 
 ### Using Tekton Pipeline from the Console
 
 Follow the same process but during the selection of Build Options select "Pipeline" option as following:
 
-<img width="700" alt="Screenshot 2024-07-08 at 4 17 36 PM" src="https://github.com/osa-ora/nodejs-demo/assets/18471537/94a0406e-b0f3-4dc2-861d-1004e12497f2">
+<img width="695" alt="Screenshot 2024-07-09 at 12 24 45 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/35b5efe4-af4d-421f-b1ec-2468ad997eb8">
 
 Follow the progress on the pipeline execution and once successfully finished, check the application deployment status.
+
+<img width="764" alt="Screenshot 2024-07-09 at 12 30 07 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/ef121a35-46c9-4f26-ac39-79ff05d454b2">
 
 ### Using Binary Build
 
@@ -32,18 +45,19 @@ Execute the following commands from your local machine
 
 Optionally you can install the dependencies, and in that case it will be a pure binary build, otherwise the builder image will install the dependencies for you.
 ```
-mvn package 
+mvn clean package 
 ```
 
 Deploy the application as a binary build.
 ```
 oc new-project dev
 oc new-app --image-stream=openshift/java:11 --name=my-java-app .
+mkdir deploy
+cp ./target/demo-0.0.1-SNAPSHOT.jar ./deploy/.
+cd deploy
 oc start-build my-java-app --from-dir=.
 oc expose service/my-java-app
 ```
-
-You can also add the NPM_MIRROR environment variable to the build in case of locally configured repsository dependencies.
 
 ### Using Builds for OpenShift:
 
@@ -110,12 +124,11 @@ spec:
 
 Click on Create and then click on "Start Build", follow the logs:
 
-<img width="1186" alt="Screenshot 2024-07-08 at 5 33 38 PM" src="https://github.com/osa-ora/nodejs-demo/assets/18471537/37a92158-1fc5-4417-bbce-338609f067eb">
-
+<img width="813" alt="Screenshot 2024-07-09 at 12 44 10 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/1bfe4d5f-5c4d-4ae0-bf6e-8f4842f88236">
 
 Now, you can deploy the appliation using "oc new-app java-app" or from the console using container image option:
 
-<img width="688" alt="Screenshot 2024-07-08 at 5 34 24 PM" src="https://github.com/osa-ora/nodejs-demo/assets/18471537/ce98efd2-f604-4ef5-b349-6ebcc445e1bf">
+<img width="681" alt="Screenshot 2024-07-09 at 12 45 00 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/b111f1e7-6d4b-411a-8387-17a232a06a25">
 
 
 Test the application route and we are done!
@@ -125,7 +138,7 @@ If you are building this using private repository artifact, just add to the file
 MAVEN_MIRROR_URL={the private repository artifact URL}
 ```
 
-<img width="463" alt="Screenshot 2024-07-08 at 5 40 17 PM" src="https://github.com/osa-ora/nodejs-demo/assets/18471537/3ed26c32-12e6-489f-a9b9-30804eec9142">
+<img width="626" alt="Screenshot 2024-07-09 at 12 46 14 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/e6f8f223-d813-41b8-aed6-75aa2e0194b1">
 
 ---
 
