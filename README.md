@@ -116,7 +116,7 @@ spec:
       value: 'image-registry.openshift-image-registry.svc:5000/openshift/java:11'
   source:
     git:
-      url: 'https://github.com/osa-ora/simple_java_maven'
+      url: 'https://github.com/osa-ora/java-demo'
     type: Git
   strategy:
     kind: ClusterBuildStrategy
