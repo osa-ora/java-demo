@@ -40,6 +40,11 @@ Follow the progress on the pipeline execution and once successfully finished, ch
 
 <img width="764" alt="Screenshot 2024-07-09 at 12 30 07 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/ef121a35-46c9-4f26-ac39-79ff05d454b2">
 
+You can then enrich the pipeline by adding more sequnetial or parallel tasks as in the folder cicd where you can create secret for a slack channel webhook and enrich the pipeline by test and coverage report as well, you can also add sonar-qube task for static code analysis.
+
+<img width="1188" alt="Screenshot 2024-09-12 at 12 23 45 PM" src="https://github.com/user-attachments/assets/f7e301f7-1b40-4f5b-b31d-9760cadd7294">
+
+
 ### Using Binary Build
 
 Execute the following commands from your local machine 
