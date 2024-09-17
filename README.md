@@ -42,7 +42,26 @@ Follow the progress on the pipeline execution and once successfully finished, ch
 
 You can then enrich the pipeline by adding more sequnetial or parallel tasks as in the folder cicd where you can create secret for a slack channel webhook and enrich the pipeline by test and coverage report as well, you can also add sonar-qube task for static code analysis.
 
+To add slack task, create the secret named my-slack-secret with the webhook token (see the cicd folder) then add the send-slack-webhook task (and configure the secret name and message as followong: Pipeline execution results $(tasks.status) for $(params.GIT_REPO) -  $(params.GIT_REVISION)
+
 <img width="1188" alt="Screenshot 2024-09-12 at 12 23 45 PM" src="https://github.com/user-attachments/assets/f7e301f7-1b40-4f5b-b31d-9760cadd7294">
+
+** Adding SonarQube scanner:
+
+We need to install sonar qube and custom tekton sonar qube scanner job that take the login token first (assuming we are using dev project)
+
+```
+//SonarQube
+oc process -f https://raw.githubusercontent.com/osa-ora/java-demo/refs/heads/main/cicd/sonar-qube-template.yaml | oc create -f - -n dev
+
+//Tekton Task: 
+oc apply -f https://raw.githubusercontent.com/osa-ora/java-demo/refs/heads/main/cicd/custom-tekton-sonar.yaml -n dev
+```
+Create a project in SonarQube and get the project key, token, and url then go to the pipeline and edit it to add parallel task to the test task and select the my-sonar-scanner task 
+
+
+<img width="1477" alt="Screenshot 2024-09-17 at 10 48 49 AM" src="https://github.com/user-attachments/assets/8028ee81-ce41-4f47-8cdd-fe3a1a610165">
+
 
 
 ### Using Binary Build
