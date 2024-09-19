@@ -2,7 +2,7 @@
 
 We have plenty of options to deploy Java Application to OpenShift, in this demo we will see some of these deployment options, this repo is fork from my previous Git repo: https://github.com/osa-ora/simple_java_maven
 
-### Using S2I from the Console
+### DEPLOYMENT OPTION 1: Using S2I from the Console
 
 Go to OpenShift Developer Console, Select Java from the catalog and click on Create: 
 
@@ -11,7 +11,6 @@ Go to OpenShift Developer Console, Select Java from the catalog and click on Cre
 Select Java version, fill in the Git Repo location "https://github.com/osa-ora/java-demo" and application name:
 
 <img width="686" alt="Screenshot 2024-07-09 at 12 18 57 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/c0cd2c0b-2c1a-426e-b668-5d6c061c2f4c">
-
 
 Select Build options as "Builds" and click on create.
 
@@ -30,7 +29,7 @@ And you can just test it by using the route:
 
 You can use that balance URL to get some dummy data from that service.
 
-### Using Tekton Pipeline from the Console
+### DEPLOYMENT OPTION 2: Using Tekton Pipeline from the Console
 
 Follow the same process but during the selection of Build Options select "Pipeline" option as following:
 
@@ -67,7 +66,7 @@ Create a project in SonarQube and get the project key, token, and url then go to
 
 
 
-### Using Binary Build
+### DEPLOYMENT OPTION 3: Using Binary Build
 
 Execute the following commands from your local machine 
 
@@ -87,7 +86,7 @@ oc start-build my-java-app --from-dir=.
 oc expose service/my-java-app
 ```
 
-### Using Builds for OpenShift:
+### DEPLOYMENT OPTION 4: Using Builds for OpenShift:
 
 First you need to install the Builds for OpenShift Operator:
 
@@ -158,7 +157,6 @@ Now, you can deploy the appliation using "oc new-app java-app" or from the conso
 
 <img width="681" alt="Screenshot 2024-07-09 at 12 45 00 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/b111f1e7-6d4b-411a-8387-17a232a06a25">
 
-
 Test the application route and we are done!
 
 If you are building this using private repository artifact, just add to the file ".s2i/environment" the following entry:
@@ -169,7 +167,7 @@ MAVEN_MIRROR_URL={the private repository artifact URL}
 <img width="626" alt="Screenshot 2024-07-09 at 12 46 14 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/e6f8f223-d813-41b8-aed6-75aa2e0194b1">
 
 ---
-### Move Deployment to GitOps
+### DEPLOYMENT OPTION 5: Deployment using GitOps Approach
 
 We need to capture our configurations files and store them in a Git repository, for that we will capture the deployed app yaml files and store them in this repo in a folder called gitops.
 
@@ -237,7 +235,7 @@ spec:
 Store it to the GitRep (we stored it in the cicd section as gitops-app.yaml file)
 Test the application by clicking on the route to make sure our application is working fine.
 
-3) Modify the Tekton Pipeline:
+4) Modify the Tekton Pipeline: (that we used in Deployment option 2)
 
 Let's now modify the Tekton Pipeline to remove the App deployment part and replace it with image tag and gitops deployment.
 
