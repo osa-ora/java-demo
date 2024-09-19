@@ -48,10 +48,10 @@ spec:
     - default: '1.0'
       name: APP_VERSION
       type: string
-    - default: 'https://sonarqube-dev.apps.cluster-kbrfv.kbrfv.sandbox1970.opentlc.com'
+    - default: 'ur-URL'
       name: SONAR_URL
       type: string
-    - default: sqp_80093e6e36da0750006ae8672fd449f85eacd923
+    - default: ur_token
       name: SONAR_TOKEN
       type: string
     - default: java-demo
