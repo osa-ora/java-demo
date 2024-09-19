@@ -1,6 +1,6 @@
 ## JavaApp Deployment To OpenShift Demo 
 
-We have plenty of options to deploy Java Application to OpenShift, in this demo we will see some of these deployment options, this repo is fork from the following Git repo: https://github.com/osa-ora/simple_java_maven
+We have plenty of options to deploy Java Application to OpenShift, in this demo we will see some of these deployment options, this repo is fork from my previous Git repo: https://github.com/osa-ora/simple_java_maven
 
 ### Using S2I from the Console
 
@@ -42,7 +42,10 @@ Follow the progress on the pipeline execution and once successfully finished, ch
 
 You can then enrich the pipeline by adding more sequnetial or parallel tasks as in the folder cicd where you can create secret for a slack channel webhook and enrich the pipeline by test and coverage report as well, you can also add sonar-qube task for static code analysis.
 
-To add slack task, create the secret named my-slack-secret with the webhook token (see the cicd folder) then add the send-slack-webhook task (and configure the secret name and message as followong: Pipeline execution results $(tasks.status) for $(params.GIT_REPO) -  $(params.GIT_REVISION)
+To add slack task, create the secret named my-slack-secret with the webhook token (see the cicd folder) then add the send-slack-webhook task (and configure the secret name and message as followong: 
+```
+Pipeline execution results $(tasks.status) for $(params.GIT_REPO) -  $(params.GIT_REVISION)
+```
 
 <img width="1188" alt="Screenshot 2024-09-12 at 12 23 45 PM" src="https://github.com/user-attachments/assets/f7e301f7-1b40-4f5b-b31d-9760cadd7294">
 
@@ -254,5 +257,15 @@ Let's now modify the Tekton Pipeline to remove the App deployment part and repla
 - Now with every new build we can increment the version or keep it the same and update the gitops files if needed.
 
   <img width="384" alt="Screenshot 2024-09-19 at 2 17 21 PM" src="https://github.com/user-attachments/assets/22c56e0b-8937-430d-b5ef-fba918bbbbdd">
+
+  Now, you can see the full pipeline built in this demo in the cicd folder: full_tekton.yaml
+
+<img width="1195" alt="Screenshot 2024-09-19 at 3 01 58 PM" src="https://github.com/user-attachments/assets/e42fb0fc-28ce-423a-a13c-4c4c55520168">
+
+We send intiial slack notification that the build started for a specific revision/branch/tag then fetch the code, build, test, run sonar qube (if flag is set to true), tag the image, and finally send a slack notification with the results.
+Once a new version is deployed, you can just edit the gitops files so the argocd can reflect it on OpenShift.
+You can also modify anything you need to change, like number of replica and it will be reflected, if you need to use auto-scaling, then delete the replica count from the deployment.yaml file and let OpenShift manage it based on the configured auto-scaling capabilities.
+
+
 
   
