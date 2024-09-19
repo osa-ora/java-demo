@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: java-demo
+  labels:
+    app: java-demo
+    app.kubernetes.io/component: java-demo
+    app.kubernetes.io/instance: java-demo
+    app.kubernetes.io/name: java-demo
+    app.openshift.io/runtime: java
+    app.openshift.io/runtime-version: openjdk-17-ubi8
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    - name: 8443-tcp
+      protocol: TCP
+      port: 8443
+      targetPort: 8443
+  internalTrafficPolicy: Cluster
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    app: java-demo
+    deployment: java-demo
