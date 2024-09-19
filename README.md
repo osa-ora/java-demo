@@ -166,4 +166,89 @@ MAVEN_MIRROR_URL={the private repository artifact URL}
 <img width="626" alt="Screenshot 2024-07-09 at 12 46 14 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/e6f8f223-d813-41b8-aed6-75aa2e0194b1">
 
 ---
+### Move Deployment to GitOps
 
+We need to capture our configurations files and store them in a Git repository, for that we will capture the deployed app yaml files and store them in this repo in a folder called gitops.
+
+The easy way to create these files is to follow the following:
+1) Create App Source of Truth:
+- Open Deployment Config: Remove status section, remove metadata except name and label, and ave the file as "deployment.yaml"
+- Open Service Config: Remove status section, remove metadata except name and label, remove clusterip, and save the file as "service.yaml"
+- Open Route: Remove status section, remove metadata except name and label, remove host, and save the file as "route.yaml"
+- If the application is using configMap or secret we can capture them and remove the status, metadata except name and label and save them with their corresponding names or group configs or secrets.
+
+2) Deploy OpenShift GitOps Operator:
+- Go to the OperatorHub and install the operator.
+- It will install a default argocd instance, get the route url (from argocd-server) and admin user password (from argocd-cluster secret).
+- Login to it using admin/password
+- Initially there will be no application configured.
+  
+  <img width="1117" alt="Screenshot 2024-09-19 at 1 27 13 PM" src="https://github.com/user-attachments/assets/179f525d-3344-43d0-b4ee-4818be066267">
+
+  
+3) Configure our App for GitOps:
+You can configure the application for deployment from the GUI or using a yaml file directly to OCP (or in the operator section)
+
+Define App Configs and sync prooperties:
+
+<img width="1171" alt="Screenshot 2024-09-19 at 1 30 12 PM" src="https://github.com/user-attachments/assets/e01ba82e-fb40-473c-b43e-6c9ceaf7b78a">
+
+Define GitOps source files:
+
+<img width="1153" alt="Screenshot 2024-09-19 at 1 33 14 PM" src="https://github.com/user-attachments/assets/71e3f5a9-bbf6-48b6-838d-1ae28060e060">
+
+Define the destination taerget:
+
+<img width="1155" alt="Screenshot 2024-09-19 at 1 31 26 PM" src="https://github.com/user-attachments/assets/382375dd-9d32-4136-8b2c-7d6ccbd2141f">
+ 
+Note: this destination means the local cluster of argocd.
+
+Click on Create....
+
+After a few seconds, you can see the application is healthy and synced.
+
+<img width="836" alt="Screenshot 2024-09-19 at 1 33 47 PM" src="https://github.com/user-attachments/assets/4eb2872c-dd5e-4746-899c-535bf88bb04d">
+
+Capture the application yaml file from either the Argocd GUI or its Operator.
+
+```
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: maven-app-gitops
+spec:
+  destination:
+    namespace: dev
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+    path: gitops
+    repoURL: 'https://github.com/osa-ora/java-demo'
+    targetRevision: main
+  syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+```
+
+Store it to the GitRep (we stored it in the cicd section as gitops-app.yaml file)
+Test the application by clicking on the route to make sure our application is working fine.
+
+3) Modify the Tekton Pipeline:
+
+Let's now modify the Tekton Pipeline to remove the App deployment part and replace it with image tag and gitops deployment.
+
+- Add parameter to the pipeline called "APP_VERSION" with default as 1.0
+- Modify the deploy step name to "tag-image" and replace the command with "oc tag $(params.APP_NAME):latest $(params.APP_NAME):$(params.APP_VERSION)" , so now everytime we run the pipeline we need to specify a version number to have a new image tag.
+- Save the pipeline.
+- Run the pipeline with APP_VERSION 1.0 then 1.1 then go to ImageSteam and see the different tags that are there ...
+  
+  <img width="877" alt="Screenshot 2024-09-19 at 2 14 27 PM" src="https://github.com/user-attachments/assets/862fd469-00db-4a6d-b89a-7a55eb3cfe6b">
+
+- Now go to deployment.yaml file in our gitops folder and update it with any of these tags.
+- Check the progress on the argocd and check the deployed "deployment" object in openshift and check the reference image before and after that change.
+- Now with every new build we can increment the version or keep it the same and update the gitops files if needed.
+
+  <img width="384" alt="Screenshot 2024-09-19 at 2 17 21 PM" src="https://github.com/user-attachments/assets/22c56e0b-8937-430d-b5ef-fba918bbbbdd">
+
+  
