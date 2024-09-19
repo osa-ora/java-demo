@@ -260,7 +260,7 @@ Let's now modify the Tekton Pipeline to remove the App deployment part and repla
 
 <img width="1195" alt="Screenshot 2024-09-19 at 3 01 58 PM" src="https://github.com/user-attachments/assets/e42fb0fc-28ce-423a-a13c-4c4c55520168">
 
-We send intiial slack notification that the build started for a specific revision/branch/tag then fetch the code, build, test, run sonar qube (if flag is set to true), tag the image, and finally send a slack notification with the results.
+We send initial slack notification that the build started for a specific revision/branch/tag then fetch the code, build, test, run sonar qube (if flag is set to true), tag the image, and finally send a slack notification with the results.
 Once a new version is deployed, you can just edit the gitops files so the argocd can reflect it on OpenShift.
 You can also modify anything you need to change, like number of replica and it will be reflected, if you need to use auto-scaling, then delete the replica count from the deployment.yaml file and let OpenShift manage it based on the configured auto-scaling capabilities.
 
