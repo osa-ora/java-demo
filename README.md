@@ -166,8 +166,26 @@ MAVEN_MIRROR_URL={the private repository artifact URL}
 
 <img width="626" alt="Screenshot 2024-07-09 at 12 46 14 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/e6f8f223-d813-41b8-aed6-75aa2e0194b1">
 
+### DEPLOYMENT OPTION 5: Using the Container Imaage
+
+If we managed to import the container image inside OpenShift or if we have it in any image registry accessible from OpenShift, then we can go to the Add section and select container image and select if this will be internal image registry or external registry .. and let OpenShift do the magic of creating all the necessary files.
+
+Let's try this with our current dev/java-demo image that is created in any of the previous deployment steps.
+
+<img width="696" alt="Screenshot 2024-09-19 at 3 32 22 PM" src="https://github.com/user-attachments/assets/59d62aca-f9e3-43d1-80d2-c298bd71e5ae">
+
+We refer to the internal registry with "image-registry.openshift-image-registry.svc:5000/{openshift-project-name}/{image-name}:{tag optionally}
+
+<img width="694" alt="Screenshot 2024-09-19 at 3 33 41 PM" src="https://github.com/user-attachments/assets/1a9326b0-7dca-472b-a50f-33a02c43772d">
+
+Click on create to create this new application.
+
+<img width="754" alt="Screenshot 2024-09-19 at 3 34 54 PM" src="https://github.com/user-attachments/assets/7f9ce3e8-3776-48ef-9e92-ffb996261c7d">
+
+Note: it will be deployed quickly as no build is required.
+
 ---
-### DEPLOYMENT OPTION 5: Deployment using GitOps Approach
+### DEPLOYMENT OPTION 6: Deployment using GitOps Approach
 
 We need to capture our configurations files and store them in a Git repository, for that we will capture the deployed app yaml files and store them in this repo in a folder called gitops.
 
