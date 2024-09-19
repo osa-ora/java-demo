@@ -239,7 +239,11 @@ Test the application by clicking on the route to make sure our application is wo
 Let's now modify the Tekton Pipeline to remove the App deployment part and replace it with image tag and gitops deployment.
 
 - Add parameter to the pipeline called "APP_VERSION" with default as 1.0
-- Modify the deploy step name to "tag-image" and replace the command with "oc tag $(params.APP_NAME):latest $(params.APP_NAME):$(params.APP_VERSION)" , so now everytime we run the pipeline we need to specify a version number to have a new image tag.
+- Modify the deploy step name to "tag-image" and replace the command with
+```
+  oc tag $(params.APP_NAME):latest $(params.APP_NAME):$(params.APP_VERSION)
+```
+  so now everytime we run the pipeline we need to specify a version number to have a new image tag.
 - Save the pipeline.
 - Run the pipeline with APP_VERSION 1.0 then 1.1 then go to ImageSteam and see the different tags that are there ...
   
