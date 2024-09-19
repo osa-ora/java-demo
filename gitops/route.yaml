@@ -1,0 +1,22 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: java-demo
+  labels:
+    app: java-demo
+    app.kubernetes.io/component: java-demo
+    app.kubernetes.io/instance: java-demo
+    app.kubernetes.io/name: java-demo
+    app.openshift.io/runtime: java
+    app.openshift.io/runtime-version: openjdk-17-ubi8
+spec:
+  to:
+    kind: Service
+    name: java-demo
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
