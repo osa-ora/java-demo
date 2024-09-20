@@ -1,4 +1,4 @@
-## JavaApp Deployment To OpenShift Demo 
+## Java Apps Deployment Options on OpenShift 
 
 We have plenty of options to deploy Java Application to OpenShift, in this demo we will see some of these deployment options, this repo is fork from my previous Git repo: https://github.com/osa-ora/simple_java_maven
 
