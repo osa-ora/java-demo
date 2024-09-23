@@ -8,9 +8,11 @@ Go to OpenShift Developer Console, Select Java from the catalog and click on Cre
 
 <img width="335" alt="Screenshot 2024-07-09 at 12 17 58 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/0298e324-e05e-48e2-9077-c8201ae4f486">
 
-Select Java version, fill in the Git Repo location "https://github.com/osa-ora/java-demo" and application name:
+Select Java version, fill in the Git Repo location "https://github.com/osa-ora/java-ocp-demo" and application name:
 
 <img width="686" alt="Screenshot 2024-07-09 at 12 18 57 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/c0cd2c0b-2c1a-426e-b668-5d6c061c2f4c">
+
+Note: the repository renamed as java-ocp-demo
 
 Select Build options as "Builds" and click on create.
 
@@ -21,7 +23,7 @@ It can be added as an entry to the .s2i/environment file or as environment varia
 
 The application will built and deployed into OpenShift:
 
-<img width="729" alt="Screenshot 2024-07-09 at 12 22 32 PM" src="https://github.com/osa-ora/java-demo/assets/18471537/af7dddf8-ed90-4b18-9b51-949083dac369">
+<img width="729" alt="Screenshot 2024-07-09 at 12 22 32 PM" src="https://github.com/osa-ora//assets/18471537/af7dddf8-ed90-4b18-9b51-949083dac369">
 
 And you can just test it by using the route:
 
@@ -54,10 +56,10 @@ We need to install sonar qube and custom tekton sonar qube scanner job that take
 
 ```
 //SonarQube
-oc process -f https://raw.githubusercontent.com/osa-ora/java-demo/refs/heads/main/cicd/sonar-qube-template.yaml | oc create -f - -n dev
+oc process -f https://raw.githubusercontent.com/osa-ora/java-ocp-demo/refs/heads/main/cicd/sonar-qube-template.yaml | oc create -f - -n dev
 
 //Tekton Task: 
-oc apply -f https://raw.githubusercontent.com/osa-ora/java-demo/refs/heads/main/cicd/custom-tekton-sonar.yaml -n dev
+oc apply -f https://raw.githubusercontent.com/osa-ora/java-ocp-demo/refs/heads/main/cicd/custom-tekton-sonar.yaml -n dev
 ```
 Create a project in SonarQube and get the project key, token, and url then go to the pipeline and edit it to add parallel task to the test task and select the my-sonar-scanner task 
 
@@ -104,7 +106,7 @@ oc new-project dev
 
 //create shipwright build for our application in the 'dev' project
 //our project code is in the root of the Git repo, otherwise we could have used '--source-context-dir="docker-build"' flag to specify the context folder of our application.
-shp build create java-build --strategy-name="source-to-image" --source-url="https://github.com/osa-ora/java-demo" --output-image="image-registry.openshift-image-registry.svc:5000/dev/java-app" --builder-image="image-registry.openshift-image-registry.svc:5000/openshift/java:11"
+shp build create java-build --strategy-name="source-to-image" --source-url="https://github.com/osa-ora/java-ocp-demo" --output-image="image-registry.openshift-image-registry.svc:5000/dev/java-app" --builder-image="image-registry.openshift-image-registry.svc:5000/openshift/java:11"
 
 //start the build and follow the output
 shp build run java-build --follow
@@ -142,7 +144,7 @@ spec:
       value: 'image-registry.openshift-image-registry.svc:5000/openshift/java:11'
   source:
     git:
-      url: 'https://github.com/osa-ora/java-demo'
+      url: 'https://github.com/osa-ora/java-ocp-demo'
     type: Git
   strategy:
     kind: ClusterBuildStrategy
@@ -216,6 +218,8 @@ Define GitOps source files:
 
 <img width="1153" alt="Screenshot 2024-09-19 at 1 33 14 PM" src="https://github.com/user-attachments/assets/71e3f5a9-bbf6-48b6-838d-1ae28060e060">
 
+Note: the repository renamed as java-ocp-demo
+
 Define the destination taerget:
 
 <img width="1155" alt="Screenshot 2024-09-19 at 1 31 26 PM" src="https://github.com/user-attachments/assets/382375dd-9d32-4136-8b2c-7d6ccbd2141f">
@@ -227,6 +231,8 @@ Click on Create....
 After a few seconds, you can see the application is healthy and synced.
 
 <img width="836" alt="Screenshot 2024-09-19 at 1 33 47 PM" src="https://github.com/user-attachments/assets/4eb2872c-dd5e-4746-899c-535bf88bb04d">
+
+Note: the repository renamed as java-ocp-demo
 
 Capture the application yaml file from either the Argocd GUI or its Operator.
 
@@ -242,7 +248,7 @@ spec:
   project: default
   source:
     path: gitops
-    repoURL: 'https://github.com/osa-ora/java-demo'
+    repoURL: 'https://github.com/osa-ora/java-ocp-demo'
     targetRevision: main
   syncPolicy:
   automated:
