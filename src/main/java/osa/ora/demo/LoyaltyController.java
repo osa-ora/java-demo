@@ -37,7 +37,7 @@ public class LoyaltyController {
 		Random random = new Random();
         	int transaction = random.nextInt(1000);
 		int trans_id = random.nextInt(12345)+765544;
-		String results="{\"transaction id\": "+trans_id+",\"account\":"+account+",\"value\": "transaction+",\"POS\": \"Pizza Shop\",\"description\": \"Pizza Purchase\"}";
+		String results="{\"transaction id\": "+trans_id+",\"account\":"+account+",\"value\": "+transaction+",\"POS\": \"Pizza Shop\",\"description\": \"Pizza Purchase\"}";
 		return results;
 	}
 
