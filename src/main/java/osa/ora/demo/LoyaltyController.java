@@ -31,7 +31,7 @@ public class LoyaltyController {
 	@GetMapping("/transaction/{account}")
 	public String getLastTransaction(@PathVariable(value = "account") Integer account) {
 		System.out.println("Get Last Transactions for account: "+account);
-		String results="{\"transaction\":"+account+ ",\"value\": 200,\"description\": \"Pizza Purchase\"}";
+		String results="{\"transaction id\": 12354545,\"account\":"+account+",\"value\": 200,\"POS\": \"Pizza Shop\",\"description\": \"Pizza Purchase\"}";
 		return results;
 	}
 
